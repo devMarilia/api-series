@@ -1,10 +1,27 @@
-import './App.css';
+import React from 'react';
+import { ThemeProvider } from 'styled-components';
+import usePeristedState from './utils/usePersistedState'
 
-function App() {
+import light from './styles/themes/light';
+import dark from './styles/themes/dark';   
+
+import GlobalStyle from './styles/global';
+import Header from './components/Header';
+
+const App = () => {
+  const [theme, setTheme] = usePeristedState('theme', light);
+
+  const toggleTheme = () => {
+    setTheme(theme.title === 'light' ? dark : light);
+  };
+
   return (
-    <div className="App">
-     <h1>Novo projeto</h1>
-    </div>
+    <ThemeProvider theme={theme}>
+      <div className="App">
+        <GlobalStyle />
+        <Header toggleTheme={toggleTheme} />
+      </div>
+    </ThemeProvider>
   );
 }
 
